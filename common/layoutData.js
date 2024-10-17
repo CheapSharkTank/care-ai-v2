@@ -98,3 +98,17 @@ export const inputFormData = {
   ca: 1,
   thalassemia: 2,
 }
+
+export const formDisplayName = {
+  patientFirstName: 'Patient First Name',
+  patientLastName: 'Patient Last Name',
+  age: 'Age',
+  chestPain: 'Chest Pain',
+  restBPM: 'Resting BPM ',
+  cholesterol: 'Cholesterol',
+  maxHeart: 'Max Heart Rate',
+  oldPeak: 'Old Peak',
+  ca: 'CA',
+  thalassemia: 'Thalassemia',
+  prediction: 'Prediction',
+}

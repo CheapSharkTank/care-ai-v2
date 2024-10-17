@@ -1,16 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useUser } from '@clerk/clerk-react'
-
+import { useState } from 'react'
 import { Button } from '../ui/button'
 import PredictionLayout from './PredictionLayout'
 import { commonInput, inputFormData } from '@/common/layoutData'
 import { Card, CardContent } from '@/components/ui/card'
-
-function valuetext(value) {
-  return `${value}°C`
-}
 
 const isFormDataValid = (formData) => {
   return Object.values(formData).every(
@@ -18,12 +12,9 @@ const isFormDataValid = (formData) => {
   )
 }
 
-function RiskPredict() {
+function RiskPredict({ user, refreshPatientData }) {
   const [formData, setFormData] = useState(inputFormData)
-  console.log(formData)
-
-  const { user } = useUser()
-
+  // Data Fetching and Creating Actions
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -33,21 +24,22 @@ function RiskPredict() {
     }
 
     if (user?.id && isFormDataValid(modifiedFormData)) {
-      console.log(modifiedFormData)
-
       try {
         const response = await fetch('/api/createPatients', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ userId: user.id, formData: modifiedFormData }),
+          body: JSON.stringify({
+            userId: user?.id,
+            formData: modifiedFormData,
+          }),
         })
 
         const result = await response.json()
         if (result.success) {
           console.log(result.message)
-          await fetchPatientRecords(user.id)
+          refreshPatientData()
         } else console.error(result.message)
       } catch (error) {
         console.error(error)
@@ -55,32 +47,9 @@ function RiskPredict() {
     }
   }
 
-  const fetchPatientRecords = async (userId) => {
-    try {
-      const response = await fetch(`/api/getPatients?userId=${userId}`, {
-        method: 'GET',
-      })
-      const data = await response.json()
-
-      if (response.ok) {
-        console.log('Patient records:', data.data)
-      } else {
-        console.error('Error fetching patient records:', data.message)
-      }
-    } catch (error) {
-      console.error('An error occurred:', error)
-    }
-  }
-
-  useEffect(() => {
-    if (user?.id) {
-      fetchPatientRecords(user.id)
-    }
-  }, [user?.id])
-
   return (
-    <div className="flex flex-col gap-4 w-full max-w-4xl p-4">
-      <form onSubmit={handleSubmit}>
+    <div className="grid gap-5 grid-rows-2 lg:grid-rows-1 lg:grid-cols-2">
+      <form onSubmit={(e) => handleSubmit(e)}>
         <Card className="pt-4 w-full">
           <CardContent className="space-y-2">
             {/* RENDER INPUT FIELDS */}
@@ -108,7 +77,7 @@ function RiskPredict() {
         </Card>
       </form>
 
-      {/* TABLE */}
+      <p>Hello world</p>
     </div>
   )
 }

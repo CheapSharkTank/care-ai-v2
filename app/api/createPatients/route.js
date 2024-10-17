@@ -22,7 +22,7 @@ export async function POST(req) {
       JSON.stringify({
         success: result.success,
         message: result.message || 'Patient Created Successfully',
-        flaskData: result.flaskData, // Pass Flask data if needed in response
+        flaskData: result.data, // Pass Flask data if needed in response
       }),
       {
         status: result.success ? 200 : 500,

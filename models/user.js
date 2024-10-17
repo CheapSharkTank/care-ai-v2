@@ -13,7 +13,6 @@ const UserSchema = new mongoose.Schema({
       cholesterol: Number,
       maxHeart: Number,
       oldPeak: Number,
-      slope: Number,
       ca: Number,
       thalassemia: Number,
       prediction: String,
