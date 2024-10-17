@@ -1,6 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { GoBack } from '@/components/Social'
-import { Button } from '@/components/ui/button'
 
 export default function Welcome() {
   // Model of userData prop --tba
@@ -30,13 +28,6 @@ export default function Welcome() {
             <p className="text-base sm:text-lg md:text-2xl font-semibold">
               122,265
             </p>
-            <Button
-              variant="outline"
-              className="hover:bg-primaryBtnClr transition-colors duration-150"
-            >
-              <GoBack />
-              <span className="text-xs">Reset All</span>
-            </Button>
           </div>
         </div>
       </CardContent>

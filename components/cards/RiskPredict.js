@@ -57,7 +57,7 @@ function RiskPredict({ user, refreshPatientData }) {
               {commonInput &&
                 commonInput.length > 1 &&
                 commonInput.map((currentInputData, index) => (
-                  <div className="w-full">
+                  <div className="w-full" key={index}>
                     <PredictionLayout
                       formData={formData}
                       setFormData={setFormData}

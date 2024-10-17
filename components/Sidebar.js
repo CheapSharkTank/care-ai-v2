@@ -51,11 +51,8 @@ export default function Sidebar() {
                   {/* HOME COMMAND */}
                   {menu.items &&
                     menu.items.map((item, itemKey) => (
-                      <Link href={item.link}>
-                        <CommandItem
-                          className="py-4 px-5 flex items-center gap-2 cursor-pointer"
-                          key={itemKey}
-                        >
+                      <Link href={item.link} key={itemKey}>
+                        <CommandItem className="py-4 px-5 flex items-center gap-2 cursor-pointer">
                           {item.icon}
                           <span className="text-[16px]">{item.text}</span>
                         </CommandItem>

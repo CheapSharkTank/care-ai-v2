@@ -116,7 +116,7 @@ function General() {
     <>
       <section className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 grid-rows-2 gap-4 w-full h-full p-5">
         {/* WELCOME USER */}
-        <Welcome/>
+        <Welcome />
 
         <div class="bg-green-500">Item 2</div>
         {/* RISK CHART ACCORDING TO AGE */}
@@ -129,7 +129,7 @@ function General() {
         {/* COMMON DISEASES AMONG MAJORITY OF THE PATIENTS */}
         <BarCard
           title={'Patient Population'}
-          desc={'Common diseases among majority of the patients'}
+          desc={'Common things among majority of the patients'}
           data={data}
         />
       </section>
