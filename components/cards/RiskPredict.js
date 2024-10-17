@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from '../ui/button'
 import PredictionLayout from './PredictionLayout'
 import { commonInput, inputFormData } from '@/common/layoutData'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const isFormDataValid = (formData) => {
   return Object.values(formData).every(
@@ -14,9 +14,14 @@ const isFormDataValid = (formData) => {
 
 function RiskPredict({ user, refreshPatientData }) {
   const [formData, setFormData] = useState(inputFormData)
+  const [isLoading, setIsLoading] = useState(false) // To track loading state
+  const [responseData, setResponseData] = useState(null) // To store fetched data
+
   // Data Fetching and Creating Actions
   async function handleSubmit(e) {
     e.preventDefault()
+    e.stopPropagation()
+    setIsLoading(true)
 
     let modifiedFormData = { ...formData }
     if (Array.isArray(formData.restBPM)) {
@@ -38,11 +43,15 @@ function RiskPredict({ user, refreshPatientData }) {
 
         const result = await response.json()
         if (result.success) {
-          console.log(result.message)
+          console.log(result)
+          setResponseData(result.data.prediction)
           refreshPatientData()
         } else console.error(result.message)
       } catch (error) {
         console.error(error)
+        setResponseData(null)
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -77,7 +86,20 @@ function RiskPredict({ user, refreshPatientData }) {
         </Card>
       </form>
 
-      <p>Hello world</p>
+      <Card className="h-28">
+        <CardHeader>
+          <CardTitle>Prediction</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : responseData ? (
+            <div>
+              <p>{responseData}</p>
+            </div>
+          ) : null}
+        </CardContent>
+      </Card>
     </div>
   )
 }
