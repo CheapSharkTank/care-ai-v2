@@ -44,41 +44,51 @@ export async function createUser(userId, userName, pathToRevalidate) {
 }
 
 // create patients
-export async function createPatients(userId, formData, pathToRevalidate) {
+export async function createPatients(userId, formData) {
   await connectToDb()
 
   try {
     const user = await User.findOne({ userId: userId })
 
     if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'User not found',
-        },
-        { status: 404 }
-      )
+      return {
+        success: false,
+        message: 'User not found',
+      }
     }
 
+    const response = await fetch('http://127.0.0.1:5000/predict', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+
+    const flaskData = await response.json()
+
+    // If prediction is successful, append the prediction to formData
+    if (flaskData.success) {
+      formData.prediction = flaskData.data
+    }
+
+    // Save the data in mongodb
     user.patient_records = user.patient_records || []
     user.patient_records.push(formData)
-
     await user.save()
-    revalidatePath(pathToRevalidate)
 
-    return NextResponse.json({
+    // Return success res
+    return {
       success: true,
       message: 'Patient record added successfully',
-    })
+      formData,
+    }
   } catch (err) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: 'Some error occurred connecting to DB',
-        error: 'Internal Server Error',
-      },
-      { status: 500 }
-    )
+    return {
+      success: false,
+      message: 'Some error occurred connecting to DB',
+      error: 'Internal Server Error',
+    }
   }
 }
 

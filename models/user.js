@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
       slope: Number,
       ca: Number,
       thalassemia: Number,
+      prediction: String,
     },
   ],
 })

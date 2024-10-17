@@ -20,6 +20,8 @@ const isFormDataValid = (formData) => {
 
 function RiskPredict() {
   const [formData, setFormData] = useState(inputFormData)
+  console.log(formData)
+
   const { user } = useUser()
 
   async function handleSubmit(e) {

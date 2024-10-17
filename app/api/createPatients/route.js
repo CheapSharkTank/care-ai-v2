@@ -2,9 +2,8 @@ import { createPatients } from '@/actions'
 
 export async function POST(req) {
   try {
-    const { userId, formData } = await req.json() // Parse the request body
+    const { userId, formData } = await req.json()
 
-    // Ensure both userId and formData are provided
     if (!userId || !formData) {
       return new Response(
         JSON.stringify({
@@ -16,12 +15,14 @@ export async function POST(req) {
     }
 
     // Call createPatients action
-    const result = await createPatients(userId, formData, '/dashboard/risk') // Provide a path if necessary
+    const result = await createPatients(userId, formData)
+
     // Return result from createPatients
     return new Response(
       JSON.stringify({
-        success: true,
-        message: 'Patient Created Successfully',
+        success: result.success,
+        message: result.message || 'Patient Created Successfully',
+        flaskData: result.flaskData, // Pass Flask data if needed in response
       }),
       {
         status: result.success ? 200 : 500,
