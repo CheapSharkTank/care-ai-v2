@@ -33,7 +33,7 @@ export default function Risk() {
   }, [user?.id])
 
   return (
-    <section className="w-full grid grid-cols-1 gap-3 items-start">
+    <section className="w-full grid grid-cols-1 gap-5 items-start p-5">
       <RiskPredict
         user={user}
         refreshPatientData={() => fetchPatientRecords(user.id)}
